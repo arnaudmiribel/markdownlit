@@ -4,4 +4,4 @@ markdown
 favicon
 lxml
 htbuilder
-pymdownx
+pymdown-extensions
