@@ -1,0 +1,6 @@
+streamlit
+streamlit-extras
+markdown
+favicon
+lxml
+htbuilder
