@@ -87,7 +87,7 @@ def stx_mention(label: str, url: str, icon: str = "🔗", write: bool = True):
         span(
             style=(
                 "border-bottom:0.05em solid"
-                " rgba(55,53,47,0.25);font-weight:500;flex-shrink:0"
+                " rgba(55,53,47,0.25);font-weight:500;flex-shrink:0;"
             )
         )(label),
         span(),
@@ -157,6 +157,7 @@ class AtSignProcessor(InlineProcessor):
 
         html = stx_mention(label=label, icon=icon, url=url, write=False)
         el = ET.ElementTree(ET.fromstring(str(html))).getroot()
+        el.set("style", "display: inline; color:inherit; text-decoration:inherit;")
         return el, m.start(0), m.end(0)
 
     @staticmethod
