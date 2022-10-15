@@ -29,7 +29,7 @@ mdlit(
     f"""
 
 #### Summary
-markdownlit is a Markdown command in Python which puts together a few additional capabilities foreseen to be useful in the context of @(Streamlit)(streamlit.io) apps. It is built as an extension to the great @(https://github.com/Python-Markdown/markdown) project. Think of markdownlit as an alternative to `st.markdown()`!
+markdownlit is a Markdown command in Python which puts together a few additional capabilities foreseen to be useful in the context of @(Streamlit)(streamlit.io) apps. It is built as an extension to the great @(https://github.com/Python-Markdown/markdown) project. You can use markdownlit along with `st.markdown()`!
 
 Here are the features of markdownlit:
 
