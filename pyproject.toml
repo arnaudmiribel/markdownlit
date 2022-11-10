@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "markdownlit"
+version = "0.0.1"
+authors = [
+  { name="Arnaud Miribel", email="arnaudmiribel@gmail.com" },
+]
+description = "markdownlit adds a couple of lit Markdown capabilities to your Streamlit apps"
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "streamlit",
+    "streamlit-extras",
+    "htbuilder",
+    "markdown",
+    "lxml",
+    "favicon",
+    "pymdown-extensions",
+]
+keywords = [
+    "python",
+    "streamlit",
+    "markdown",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/arnaudmiribel/markdownlit"
+"Bug Tracker" = "https://github.com/arnaudmiribel/markdownlit/issues"
