@@ -55,6 +55,10 @@ class AtSignProcessor(InlineProcessor):
         url = self._add_https(url)
 
         html = mention(label=label, icon=icon, url=url, write=False)
+        # Remove <style> from mention to ensure a valid XML
+        # Instead, we add the <style> in the main mdlit() function
+        if html.find("</style>") != -1:
+            html = html[html.find("</style>") + len("</style>") :]
         el = ET.ElementTree(ET.fromstring(str(html))).getroot()
         el.set("style", "display: inline; color:inherit; text-decoration:inherit;")
         return el, m.start(0), m.end(0)

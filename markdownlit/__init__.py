@@ -1,5 +1,3 @@
-from functools import partial
-
 import markdown
 import streamlit as st
 from markdown.extensions import Extension
@@ -21,13 +19,13 @@ def css(body: str) -> None:
     st.write("<style>" + body + "</style>", unsafe_allow_html=True)
 
 
-css(
-    """
+STYLE_HTML = """
+<style>
 a:hover {
     background-color: rgba(.7, .7, .7, .05);
 }
+</style>
 """
-)
 
 
 def md(body: str, extensions: list, extension_configs: dict = dict()) -> None:
@@ -45,7 +43,8 @@ def md(body: str, extensions: list, extension_configs: dict = dict()) -> None:
             body,
             extensions=extensions,
             extension_configs=extension_configs,
-        ),
+        )
+        + STYLE_HTML,
         unsafe_allow_html=True,
     )
 
