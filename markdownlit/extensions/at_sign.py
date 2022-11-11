@@ -6,9 +6,8 @@ from typing import Tuple
 import favicon
 import requests
 import streamlit as st
-from htbuilder import a, img, span
 from markdown.inlinepatterns import InlineProcessor
-from validators import url as validate_url
+from streamlit_extras.mention import mention
 
 SUPPORTED_PLATFORMS = ("github", "notion", "twitter", "streamlit")
 GITHUB_ICON = "https://cdn-icons-png.flaticon.com/512/25/25231.png"
@@ -17,58 +16,6 @@ TWITTER_ICON = "https://seeklogo.com/images/T/twitter-icon-circle-blue-logo-0902
 STREAMLIT_ICON = "https://aws1.discourse-cdn.com/business7/uploads/streamlit/original/2X/f/f0d0d26db1f2d99da8472951c60e5a1b782eb6fe.png"
 
 AT_SIGN_RE = r"@(?P<a>\([^)]+\))(?P<b>\([^)]+\))?(?P<c>\([^)]+\))?"
-
-# TODO: Get the css thingy out of stx' mention!
-# TODO: Create a Notion project so that "style" stop taking vertical space in Streamlit apps
-def stx_mention(label: str, url: str, icon: str = "🔗", write: bool = True):
-    """Mention a link with a label and icon.
-    Args:
-        label (str): Label to use in the mention
-        icon (str): Icon to use. Can be an emoji or a URL. Default '🔗'
-        url (str): Target URL of the mention
-        write (bool): Writes the mention directly. If False, returns the raw HTML.
-                      Useful if mention is used inline.
-    """
-
-    if icon.lower() == "github":
-        icon = GITHUB_ICON
-    elif icon.lower() == "notion":
-        icon = NOTION_ICON
-    elif icon.lower() == "twitter":
-        icon = TWITTER_ICON
-    elif icon.lower() == "streamlit":
-        icon = STREAMLIT_ICON
-
-    if validate_url(icon):
-        icon_html = img(
-            src=icon,
-            style="width:1em;height:1em;vertical-align:-0.15em;border-radius:3px;margin-right:0.3em",
-        )
-    else:
-        icon_html = icon + "  "
-
-    mention_html = a(
-        contenteditable=False,
-        href=url,
-        rel="noopener noreferrer",
-        style="color:inherit;text-decoration:inherit; height:auto!important;margin-left:5px;",
-        target="_blank",
-    )(
-        span(),
-        icon_html,
-        span(
-            style=(
-                "border-bottom:0.05em solid"
-                " rgba(55,53,47,0.25);font-weight:500;flex-shrink:0;"
-            )
-        )(label),
-        span(),
-    )
-
-    if write:
-        st.write(str(mention_html), unsafe_allow_html=True)
-    else:
-        return str(mention_html)
 
 
 class AtSignProcessor(InlineProcessor):
@@ -107,7 +54,7 @@ class AtSignProcessor(InlineProcessor):
 
         url = self._add_https(url)
 
-        html = stx_mention(label=label, icon=icon, url=url, write=False)
+        html = mention(label=label, icon=icon, url=url, write=False)
         el = ET.ElementTree(ET.fromstring(str(html))).getroot()
         el.set("style", "display: inline; color:inherit; text-decoration:inherit;")
         return el, m.start(0), m.end(0)
@@ -115,7 +62,8 @@ class AtSignProcessor(InlineProcessor):
     @staticmethod
     @st.experimental_memo
     def _get_favicon(url: str) -> str:
-        return favicon.get(url)[0].url
+        favicons = favicon.get(url, timeout=2)
+        return favicons[0].url
 
     @staticmethod
     @st.experimental_memo
@@ -158,7 +106,7 @@ class AtSignProcessor(InlineProcessor):
                 icon = self._get_favicon(url)
                 label = self._get_page_title(url)
             except Exception as e:
-                st.write(e)
+                # st.write(e)
                 icon = "🔗"
                 label = "Link"
         return icon, label
