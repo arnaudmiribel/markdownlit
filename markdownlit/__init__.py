@@ -85,12 +85,13 @@ class MarkdownLitExtension(Extension):
         # )
 
 
-mdlit = partial(
-    md,
-    extensions=[
-        MarkdownLitExtension(),  # Includes at_sign, color, arrow and double_dash
-        "pymdownx.details",  # Includes collapsible content
-        "pymdownx.tasklist",  # Added for consistency with st.markdown
-        "fenced_code",  # Added for consistency with st.markdown
-    ],
-)
+def mdlit(body: str) -> None:
+    md(
+        body=body,
+        extensions=[
+            MarkdownLitExtension(),  # Includes at_sign, color, arrow and double_dash
+            "pymdownx.details",  # Includes collapsible content
+            "pymdownx.tasklist",  # Added for consistency with st.markdown
+            "fenced_code",  # Added for consistency with st.markdown
+        ],
+    )
