@@ -2,7 +2,7 @@
 
 # markdownlit
 
-This repository introduces `markdownlit`, a library that gives you a couple of lit additional Markdown commands for your Streamlit apps! It is built upon the [Python-Markdown/markdown](https://github.com/Python-Markdown/markdown) project.
+`markdownlit` gives you a couple of lit additional Markdown commands for your Streamlit apps! It is built upon the [Python-Markdown/markdown](https://github.com/Python-Markdown/markdown) project.
 
 ## Get started
 
