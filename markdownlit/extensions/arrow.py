@@ -4,7 +4,7 @@ from typing import Tuple
 
 from markdown.inlinepatterns import InlineProcessor
 
-ARROW_RE = r"->"
+ARROW_RE = r"(->|<-)"
 
 
 class ArrowProcessor(InlineProcessor):
@@ -13,5 +13,10 @@ class ArrowProcessor(InlineProcessor):
         It will replace all arrows -> by the → character.
         """
         el = etree.Element("span")
-        el.text = "→"
+
+        match = m.groups()[0]
+        if match == "->":
+            el.text = "→"
+        elif match == "<-":
+            el.text = "←"
         return el, m.start(0), m.end(0)
