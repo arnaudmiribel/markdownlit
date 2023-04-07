@@ -9,6 +9,11 @@ import streamlit as st
 from markdown.inlinepatterns import InlineProcessor
 from streamlit_extras.mention import mention
 
+try:
+    from streamlit import cache_data  # streamlit >= 1.18.0
+except ImportError:
+    from streamlit import experimental_memo as cache_data  # streamlit >= 0.89
+
 SUPPORTED_PLATFORMS = ("github", "notion", "twitter", "streamlit")
 GITHUB_ICON = "https://cdn-icons-png.flaticon.com/512/25/25231.png"
 NOTION_ICON = "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png"
@@ -64,13 +69,13 @@ class AtSignProcessor(InlineProcessor):
         return el, m.start(0), m.end(0)
 
     @staticmethod
-    @st.experimental_memo
+    @st.cache_data
     def _get_favicon(url: str) -> str:
         favicons = favicon.get(url, timeout=2)
         return favicons[0].url
 
     @staticmethod
-    @st.experimental_memo
+    @st.cache_data
     def _get_page_title(url: str) -> str:
         n = requests.get(url)
         al = n.text
