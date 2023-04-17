@@ -69,13 +69,13 @@ class AtSignProcessor(InlineProcessor):
         return el, m.start(0), m.end(0)
 
     @staticmethod
-    @st.cache_data
+    @cache_data
     def _get_favicon(url: str) -> str:
         favicons = favicon.get(url, timeout=2)
         return favicons[0].url
 
     @staticmethod
-    @st.cache_data
+    @cache_data
     def _get_page_title(url: str) -> str:
         n = requests.get(url)
         al = n.text
